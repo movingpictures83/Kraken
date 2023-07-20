@@ -3,12 +3,22 @@ library(stringr)
 
 source("RIO.R")
 
+dyn.load(paste("RPluMA", .Platform$dynlib.ext, sep=""))
+source("RPluMA.R")
+
+
 input <- function(infile) {
+  pfix = prefix()
+  if (length(pfix) != 0) {
+     prefix <- paste(pfix, "/", sep="")
+  }
    parameters <<- readParameters(infile)
    samplex <<- parameters['samplex', 2]
+   #fq1 <<- paste(prefix, parameters['fq1', 2], sep="")
    fq1 <<- parameters['fq1', 2]
    if ("fq2" %in% rownames(parameters)){
    fq2 <<- parameters['fq2', 2]
+   #fq2 <<- paste(prefix, parameters['fq2', 2], sep="")
    }
    ncbi_blast_path <<- parameters['ncbi_blast_path', 2]
    Kraken2Uniq_path <<- parameters['Kraken2Uniq', 2]
